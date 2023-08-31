@@ -1,0 +1,55 @@
+<%- include('userNavbar')%>
+<% if (locals.message) { %>
+  <div class="alert alert-danger">
+    <strong><%= message %> </strong>
+  </div>
+<% } %> 
+
+<link rel="stylesheet" href="/static/styles/homepage.css">
+
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner" style="max-height: 400px;">
+    <% banner.forEach((ban, index) => { %>
+      <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+        <img src="/static/uploads/<%= ban.bannerImage %>" class="d-block w-100 h-25" alt="statss">
+      </div>
+    <% }) %>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<h5 class="text-primary mt-3 p-3">CATEGORIES</h5>
+<h3 class="mt-2 p-2">Browse By Categories</h3>
+
+<hr class="mx-n3">
+
+<div class="container">
+  <div class="row">
+    <% categorydetails.forEach((category) => { %>
+      <div class="col-md-4 mb-4">
+        <div class="card text-center h-100" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+          <img src="/static/uploads/<%= category.categoryImage %>" class="card-img-top h-75" alt="lap">
+          <div class="card-body">
+            <h5 class="card-title"><%= category.categoryName %></h5>
+            <p class="card-text"><%= category.categoryDescription %></p>
+            <a href="/products?name=<%= category.categoryName %>" class="btn btn-primary">Explore Category</a>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<%- include('footer')%>
+
+
+
+
+
