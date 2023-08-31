@@ -64,9 +64,9 @@ user_route.get('/login', Userauth.isLogout, userController.loadLogin);
 
 user_route.post('/login', userController.verifyLogin);
 
-user_route.get('/products', userController.loadproducts);
+user_route.get('/products', Userauth.isLogin, userController.loadproducts);
 
-user_route.get('/singleproduct', userController.loadSingleproduct);
+user_route.get('/singleproduct', Userauth.isLogin, userController.loadSingleproduct);
 
 user_route.get('/logout', Userauth.isLogin, userController.logout);
 
@@ -80,13 +80,11 @@ user_route.post('/api/addtowish', userController.addToWish);
 
 user_route.post('/api/updateQuantity', userController.updateQuantity);
 
-user_route.get('/cart', userController.loadCart);
+user_route.get('/cart', Userauth.isLogin, userController.loadCart);
 
-user_route.get('/wishlist', userController.loadWish);
+user_route.get('/wishlist', Userauth.isLogin, userController.loadWish);
 
-// user_route.post('/updatequantity', userController.updatequantity);
-
-user_route.get('/shipping', userController.loadshipping);
+user_route.get('/shipping', Userauth.isLogin, userController.loadshipping);
 
 user_route.get('/deleteproduct', userController.deletecartproduct);
 
@@ -94,21 +92,21 @@ user_route.get('/deletewish', userController.deletewishproduct);
 
 user_route.get('/movetocart', userController.movetoCart);
 
-user_route.post('/shipping', userController.verifyshipping);
+user_route.post('/shipping', Userauth.isLogin, userController.verifyshipping);
 
-user_route.get('/editaddress', userController.loadeditAddress);
+user_route.get('/editaddress', Userauth.isLogin, userController.loadeditAddress);
 
-user_route.post('/editaddress', userController.verifyeditaddress);
+user_route.post('/editaddress', Userauth.isLogin, userController.verifyeditaddress);
 
 user_route.get('/removeaddress', userController.removeAddress);
 
-user_route.get('/payment', userController.loadpayment);
+user_route.get('/payment', Userauth.isLogin, userController.loadpayment);
 
 user_route.post('/payment', userController.verifypayment);
 
-user_route.get('/ordersuccess', userController.loadordersuccess);
+user_route.get('/ordersuccess', Userauth.isLogin, userController.loadordersuccess);
 
-user_route.get('/order', userController.loadorders);
+user_route.get('/order', Userauth.isLogin, userController.loadorders);
 
 user_route.get('/cancelorder', userController.cancelorderproduct);
 
@@ -116,21 +114,21 @@ user_route.post('/filterbyprice', userController.showFilteredproducts);
 
 user_route.get('/returnorder', userController.returnorderproduct);
 
-user_route.post('/returnorder', userController.confirmreturnorder);
+user_route.post('/returnorder', Userauth.isLogin, userController.confirmreturnorder);
 
-user_route.post('/savingdata',userController.saveOrderUpi);
+user_route.post('/savingdata', Userauth.isLogin,userController.saveOrderUpi);
 
-user_route.post('/selectedaddress', userController.getselectedaddress);
+user_route.post('/selectedaddress', Userauth.isLogin, userController.getselectedaddress);
 
-user_route.get('/userprofile', userController.loadUserprofile);
+user_route.get('/userprofile', Userauth.isLogin, userController.loadUserprofile);
 
-user_route.post('/addprofileimage',upload.single('file'), userController.uploadProfileimage);
+user_route.post('/addprofileimage', Userauth.isLogin,upload.single('file'), userController.uploadProfileimage);
 
-user_route.get('/singleorderdetails', userController.loadsingleorderdetails);
+user_route.get('/singleorderdetails', Userauth.isLogin, userController.loadsingleorderdetails);
 
-user_route.get('/invoice',userController.orderInvoice);
+user_route.get('/invoice', Userauth.isLogin,userController.orderInvoice);
 
-user_route.post('/applycoupon',userController.getCoupon);
+user_route.post('/applycoupon', Userauth.isLogin,userController.getCoupon);
 
 
 

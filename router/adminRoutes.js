@@ -75,29 +75,25 @@ admin_route.get('/usermanagement',Adminauth.isLogin, adminController.loadUserman
 
 admin_route.get('/search', adminController.searchUser);
 
-// admin_route.get('/adduser', adminController.loadaddUser);
-
-// admin_route.post('/adduser', adminController.verifyaddUser);
-
-admin_route.get('/block', adminController.userBlockstatus);
+admin_route.get('/block',Adminauth.isLogin, adminController.userBlockstatus);
 
 admin_route.get('/categorymanagement',Adminauth.isLogin, adminController.loadCategorypage);
 
 admin_route.get('/category/search', adminController.searchCategory);
 
-admin_route.get('/addcategory', adminController.loadAddcategory);
+admin_route.get('/addcategory',Adminauth.isLogin, adminController.loadAddcategory);
 
-admin_route.post('/addcategory', upload.single('file'), adminController.verifyaddCategory);
+admin_route.post('/addcategory',Adminauth.isLogin, upload.single('file'), adminController.verifyaddCategory);
 
-admin_route.get('/editcategory', adminController.loadCategoryedit);
+admin_route.get('/editcategory',Adminauth.isLogin, adminController.loadCategoryedit);
 
-admin_route.get('/deletecategory', adminController.deleteCategory);
+admin_route.get('/deletecategory',Adminauth.isLogin, adminController.deleteCategory);
 
-admin_route.post('/editcategory', upload.single('file'), adminController.verifyeditCategory);
+admin_route.post('/editcategory',Adminauth.isLogin, upload.single('file'), adminController.verifyeditCategory);
 
 admin_route.get('/productmanagement',Adminauth.isLogin, adminController.loadProductpage);
 
-admin_route.get('/addproduct', adminController.loadAddproduct);
+admin_route.get('/addproduct',Adminauth.isLogin, adminController.loadAddproduct);
 
 admin_route.post('/addproduct', upload.fields([
     { name: 'mainImage', maxCount: 1 },
@@ -106,9 +102,9 @@ admin_route.post('/addproduct', upload.fields([
 
 admin_route.get('/product/search', adminController.searchProduct);
 
-admin_route.get('/editproduct', adminController.loadeditProduct);
+admin_route.get('/editproduct',Adminauth.isLogin, adminController.loadeditProduct);
 
-admin_route.post('/editproduct',  upload.fields([
+admin_route.post('/editproduct',Adminauth.isLogin,  upload.fields([
     { name: 'mainImage', maxCount: 1 },
     { name: 'image', maxCount: 5 }
   ]) , adminController.verifyEditproduct)
@@ -119,49 +115,49 @@ admin_route.get('/adminlogout',Adminauth.isLogin, adminController.adminlogout);
 
 admin_route.get('/deleteimage', adminController.deleteImage);
 
-admin_route.get('/ordermanagement', adminController.loadOrderpage);
+admin_route.get('/ordermanagement',Adminauth.isLogin, adminController.loadOrderpage);
 
-admin_route.get('/orderadmindetails', adminController.loadAdminorder);
+admin_route.get('/orderadmindetails',Adminauth.isLogin, adminController.loadAdminorder);
 
-admin_route.post('/changedate', adminController.verifycahngedate);
+admin_route.post('/changedate',Adminauth.isLogin, adminController.verifycahngedate);
 
-admin_route.post('/changeorderstatus', adminController.verifychangestatus);
+admin_route.post('/changeorderstatus',Adminauth.isLogin, adminController.verifychangestatus);
 
-admin_route.get('/couponmanagement', adminController.loadCouponmanagementpage);
+admin_route.get('/couponmanagement',Adminauth.isLogin, adminController.loadCouponmanagementpage);
 
-admin_route.get('/addcoupon', adminController.loadaddCoupon);
+admin_route.get('/addcoupon',Adminauth.isLogin, adminController.loadaddCoupon);
 
-admin_route.post('/addcoupon', adminController.verifyaddCoupon);
+admin_route.post('/addcoupon',Adminauth.isLogin, adminController.verifyaddCoupon);
 
-admin_route.get('/discardcoupon', adminController.discardCoupon);
+admin_route.get('/discardcoupon',Adminauth.isLogin, adminController.discardCoupon);
 
-admin_route.get('/editcoupon', adminController.editCoupon);
+admin_route.get('/editcoupon',Adminauth.isLogin, adminController.editCoupon);
 
-admin_route.post('/editcoupon', adminController.VerifyeditCoupon);
+admin_route.post('/editcoupon',Adminauth.isLogin, adminController.VerifyeditCoupon);
 
-admin_route.get('/listedcoupons', adminController.Loadlisted);
+admin_route.get('/listedcoupons',Adminauth.isLogin, adminController.Loadlisted);
 
-admin_route.get('/listcoupon', adminController.changetolisted);
+admin_route.get('/listcoupon',Adminauth.isLogin, adminController.changetolisted);
 
-admin_route.get('/unlistedcoupons', adminController.Loadunlisted);
+admin_route.get('/unlistedcoupons',Adminauth.isLogin, adminController.Loadunlisted);
 
-admin_route.get('/bannermanagement', adminController.LoadBanner);
+admin_route.get('/bannermanagement',Adminauth.isLogin, adminController.LoadBanner);
 
-admin_route.get('/addbanner', adminController.LoadaddBanner);
+admin_route.get('/addbanner',Adminauth.isLogin, adminController.LoadaddBanner);
 
-admin_route.post('/addbanner',upload.single('file'), adminController.VerifyaddBanner);
+admin_route.post('/addbanner',Adminauth.isLogin,upload.single('file'), adminController.VerifyaddBanner);
 
-admin_route.get('/editbanner', adminController.LoadeditBanner);
+admin_route.get('/editbanner',Adminauth.isLogin, adminController.LoadeditBanner);
 
-admin_route.post('/editbanner',upload.single('file'), adminController.VerifyeditBanner);
+admin_route.post('/editbanner',Adminauth.isLogin,upload.single('file'), adminController.VerifyeditBanner);
 
 admin_route.get('/banner/search', adminController.searchBanner);
 
 admin_route.get('/deletebanner', adminController.deleteBanner);
 
-admin_route.post('/report', adminController.LoadReport);
+admin_route.post('/report',Adminauth.isLogin, adminController.LoadReport);
 
-admin_route.post('/downloadreport', adminController.LoaddownloadReport);
+admin_route.post('/downloadreport',Adminauth.isLogin, adminController.LoaddownloadReport);
 
 admin_route.get('*', function (req, res) {
     res.redirect('/admin');
