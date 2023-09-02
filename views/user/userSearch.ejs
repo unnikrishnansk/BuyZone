@@ -1,11 +1,12 @@
 <%- include('userNavbar')%>
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
 <link rel="stylesheet" href="/static/styles/homepage.css">
 
 <!-- <div class="ml-3" style="border: 1px solid red;"> -->
 <h5 class="text-primary mt-3" style="padding-left: 50px;font-weight: 700;font-size: 29px;">PRODUCTS</h5>
 <% if (locals.items && locals.search) { %>
-  <div >
+  <div class="p-2">
     <p>Showing <strong><%= items %> </strong> results for <strong><%= search %></strong></p>
   </div>
 <% } %> 
@@ -38,7 +39,7 @@
 
          
           <a href="/products?name=<%=cat.categoryName%>" class="list-group-item list-group-item-action py-2 ripple">
-            <input type="radio" value="<%=cat.categoryName%>" name="selectedcat" checked>     <%= cat.categoryName%>
+            <input type="radio" value="<%=cat.categoryName%>" name="selectedcat" >     <%= cat.categoryName%>
           </a>
           <% }) %>
         
@@ -76,8 +77,43 @@
     </nav>
   </div>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <% if (locals.message) { %>
+          <div class="alert alert-danger">
+            <strong><%= message %></strong>
+          </div>
+        <% } %>
+      </div>
+    </div>
+    <div class="row">
+      <% productdetails.forEach((product) => { %>
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <div class="card">
+            <img src="/static/uploads/<%= product.mainImage %>" class="card-img-top hovereffect" alt="<%= product.productName %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= product.productName %></h5>
+              <p class="card-text">
+                <span class="text-success font-weight-bold"><%= product.productStock ? "IN STOCK" : "OUT OF STOCK" %></span>
+                <br>
+                <span>&#8377;</span><%= product.productPrice %>
+              </p>
+              <div class="d-flex justify-content-center">
+                <span class="material-symbols-sharp btn btn-outline-primary border-0" style="width: 45px; height: 30px;"
+                  onclick="addTowish('<%= product.productID %>')">favorite</span>
+              </div>
+              <button class="btn btn-primary btn-block w-100 mt-2" onclick="addToBag('<%= product.productID %>')" style="height: 50px;">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+  
 
-<div >
+
+<!-- <div >
     <div class="display_category p-3 flex-1" style="margin-left: 54px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; ">
         <% if (locals.message) { %>
             <div class="alert alert-danger">
@@ -94,21 +130,21 @@
       
         <div class="card-body">
           <h5 class="card-title "><%= product.productName%></h5>
-          <!-- <p class="card-text "><%= product.productDescription %></p> -->
-          <p class="card-text "><span class="text-success font-weight-bold" ><%= product.productStock ? "IN STOCK" : "OUT OF STOCK" %>
+           <p class="card-text "><%= product.productDescription %></p> -->
+          <!-- <p class="card-text "><span class="text-success font-weight-bold" ><%= product.productStock ? "IN STOCK" : "OUT OF STOCK" %>
           <h6 class="card-text "><span>&#8377;</span><%= product.productPrice %></h6>
           <button class="btn btn-primary" id="addToBag" style="width:200px;height: 50px;" onclick="addToBag('<%= product.productID %>')" >Add to Cart</button>
         </div>
       
-      </div>
+      </div> -->
     <!-- </div> -->
     
     
-    
+<!--     
       <% }) %>
     </div>
     
-    </div>
+    </div> --> 
   </div>
 
 

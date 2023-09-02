@@ -50,7 +50,62 @@
                           </span> </p>
                       </div>
                     </div> -->
-                      <% order.orderItems.forEach((prod)=>{ %>
+
+                    <% order.orderItems.forEach((prod) => { %>
+                      <div class="d-flex flex-wrap mb-4 pb-2 justify-content-between"
+                          style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; padding: 15px; border-radius: 10px; width: 90%; margin-top: 15px; margin-left: 25px;">
+                          <div class="d-flex flex-column justify-content-center">
+                              <img style="width: 100px; height: 60px;" src="/static/uploads/<%= prod.image %>" alt="">
+                          </div>
+                          <div class="flex-grow-1 mx-3">
+                              <h6 class="bold">
+                                  <%= prod.name %>
+                              </h6>
+                          </div>
+                          <div class="flex-grow-1 mx-3">
+                              <p class="text-muted fw-bold">Qty: <%= prod.quantity %></p>
+                          </div>
+                          <div class="flex-grow-1 mx-3">
+                              <h6 class="mb-3 fw-bold"><span>&#8377; <%= prod.price %></span></h6>
+                          </div>
+                          <div class="d-flex flex-column justify-content-center mx-3">
+                              <% const deliverydate = order.deliveryDate %>
+                              <% const returnexpdate = new Date(deliverydate) %>
+                              <% returnexpdate.setDate(returnexpdate.getDate() + 5) %>
+                              <% const currentdate = new Date() %>
+                              <% console.log(returnexpdate, currentdate) %>
+                              <div class="d-flex justify-content-center">
+                                  <a href="/singleorderdetails?ord=<%= order.orderid %>"
+                                      style="text-decoration: none; " class="p-1">Details</a>
+                                  <% if (order.orderStatus == "returned" || order.orderStatus == "cancelled") { %>
+                                      <h6 class="fw-normal ml-2"><a
+                                              style="text-decoration: none; margin: 5px;"
+                                              href="/returnorder?id=<%= prod.productID %>&odr=<%= order.orderid %>"></a>
+                                      </h6>
+                                  <% } else if (order.orderStatus == "delivered") { %>
+                                      <% if (returnexpdate == currentdate) { %>
+                                          <!-- Display nothing if it's the last day for return -->
+                                      <% } else { %>
+                                          <h6 class="fw-normal ml-4 p-2"><a
+                                                  style="text-decoration: none; margin: 5px;"
+                                                  href="/returnorder?id=<%= prod.productID %>&odr=<%= order.orderid %>">Return</a>
+                                          </h6>
+                                      <% } %>
+                                  <% } else { %>
+                                      <h6 class="fw-normal ml-4 p-2"><a
+                                              style="text-decoration: none; margin: 5px;"
+                                              onclick="return confirm('Are you sure you want to cancel this order?')"
+                                              href="/cancelorder?id=<%= prod.productID %>&odr=<%= order.orderid %>">Cancel</a>
+                                      </h6>
+                                  <% } %>
+                              </div>
+                          </div>
+                      </div>
+                  <% }); %>
+                  
+
+
+                      <!-- <% order.orderItems.forEach((prod)=>{ %>
 
                         <div class="d-flex flex-row mb-4 pb-2 justify-content-around "
                           style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;padding: 15px; border-radius: 10px; width: 90%; margin-top: 15px;margin-left: 25px;">
@@ -87,10 +142,10 @@
                                <div style="align-items: center;margin-top: 20px;">
                                  <a href="/singleorderdetails?ord=<%=order.orderid%>" style="text-decoration: none;margin-left: 10px;margin-right: 10px;">Details</a>
                               </div>
-                           <!-- <div>
+                          <div>
                               <a href="" style="text-decoration: none;margin-left: 5px; margin-right: 5px;">View product</a>
                           </div> -->
-                           <% if(order.orderStatus == "returned" || order.orderStatus == "cancelled"){ %>
+                           <!-- <% if(order.orderStatus == "returned" || order.orderStatus == "cancelled"){ %>
                             <div style="align-items: center;margin-top: 20px;">
                               <h6 class="fw-normal ml-5 pl-5" style="margin-left: 10px;margin-right: 10px;margin-top: 20px;"><a
                                   style="text-decoration: none;margin-left: 5px;" href="/returnorder?id=<%=prod.productID%>&odr=<%=order.orderid%>"></a>
@@ -123,7 +178,7 @@
                           </div>
                           
                          
-                        </div>
+                        </div> --> 
                      
                       </div>
                         <% }) %>

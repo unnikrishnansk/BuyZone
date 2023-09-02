@@ -12,18 +12,18 @@
     <% console.log(cartcount) %>
 
       <div class="container-fluid  mt-100" >
-        <div class="row">
+        <div class="row" >
 
           <% if(cartcount <1 ) { %>
-            <div class="col-md-12">
+            <div class="col-md-12" >
 
-              <div class="card" >
-                <div class="card-header">
+              <div class="card">
+                <div class="card-header" >
                   <h5>Cart</h5>
                 </div>
-                <div class="card-body cart" >
+                <div class="card-body cart">
 
-                  <div class="col-sm-12 empty-cart-cls text-center">
+                  <div class="col-sm-12 empty-cart-cls text-center" >
                     <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
                     <h3><strong>Your Cart is Empty</strong></h3>
                     <h4>Add something...! :</h4>
@@ -38,13 +38,9 @@
 
             </div>
             <% }else{ %>
-
-
-
-
-
-              <div class="table-responsive d-flex" >
-                <table class="table flex-1" >
+  
+              <div class="table-responsive d-flex">
+                <table class="table flex-1 p-3" >
                   <thead>
                     <tr>
                       <th scope="col" class="h5">Cart</th>
@@ -54,24 +50,65 @@
                       <th scope="col">Total Price</th>
                     </tr>
                   </thead>
+
                   <tbody>
+                    <% cartData.length %>
+                    <% let tot = 1 %>
+                    <% let res = 0 %>
+                    <% cartData.forEach((cart) => { %>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center p-2">
+                            <img src="/static/uploads/<%= cart.prodImage %>" class="img-fluid rounded-3" style="max-width: 120px;" alt="Book">
+                          </div>
+                        </td>
+                        <td class="align-middle">
+                          <p class="mb-0" style="font-weight: 500;"><%= cart.name %></p>
+                        </td>
+                        <td class="align-middle">
+                          <p class="mb-0" style="font-weight: 500;"><span>&#8377;<%= cart.price %></span></p>
+                        </td>
+                        <td class="align-middle">
+                          <div class="d-flex flex-row">
+                            <button class="btn btn-link px-2" onclick="decreasecount('<%= cart.productId %>','<%= cart.quantity %>')">
+                              <i class="fa fa-minus"></i>
+                            </button>
+                            <input type="number" class="form-control form-control-sm" id="<%= cart.productId %>" style="max-width: 50px;" value="<%= cart.quantity %>">
+                            <% if (cart.stock > cart.quantity) { %>
+                              <button class="btn btn-link px-2" onclick="increasecount('<%= cart.productId %>','<%= cart.quantity %>')">
+                                <i class="fa fa-plus"></i>
+                              </button>
+                            <% } else { %>
+                              <button class="btn btn-link px-2" onclick="increasecount('<%= cart.productId %>','<%= cart.quantity %>')" disabled>
+                                <i class="fa fa-plus"></i>
+                              </button>
+                            <% } %>
+                          </div>
+                        </td>
+                        <td class="align-middle">
+                          <p class="mb-0" id="tot_price" style="font-weight: 500;"><span>&#8377;<%= tot = cart.price * cart.quantity %></span></p>
+                        </td>
+                        <td class="align-middle">
+                          <p class="mb-0" style="font-weight: 500;"><a type="btn" class="align-middle" href="/deleteproduct?product=<%= cart.productId %>" style="text-decoration: none;">REMOVE</a></p>
+                        </td>
+                      </tr>
+                    <% }) %>
+                    <% console.log(res) %>
+                  </tbody>
+                  
+                  <!-- <tbody>
                     <%cartData.length%>
-                      <% let tot=1 %>
-                        <% let res=0 %>
+                     
                           <% cartData.forEach((cart)=>{ %>
 
-
                             <tr>
-
-
-
-
                               <th scope="row">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center p-2">
                                   <img src="/static/uploads/<%= cart.prodImage%>" class="img-fluid rounded-3"
                                     style="width: 120px;" alt="Book">
 
                                 </div>
+                                
                               </th>
 
 
@@ -126,7 +163,7 @@
                             </tr>
                             <%})%>
                               <%console.log(res)%>
-                  </tbody>
+                  </tbody> -->
                 </table>
                 <div class="card shadow-2-strong mb-5 mb-lg-0 w-25 " style="border-radius: 16px; ">
                 <div class="card-body p-4" >
@@ -176,6 +213,9 @@
               </div>
               <% } %>
               </div>
+
+              
+
 
               
         </div>

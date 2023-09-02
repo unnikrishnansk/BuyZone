@@ -15,10 +15,15 @@
 <div style=" display: flex;" >
   <!-- Sidebar -->
 
+  
 
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+           
+  </div>
   <div class="col-lg-3" style="width: 15%;">
     <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
       <div class="position-sticky">
+        
         <div class="list-group list-group-flush mx-3 mt-4">
           <a
             href="#"
@@ -74,47 +79,33 @@
 
  
   <!-- Sidebar -->
-<div class="display_category p-3 col-lg-9 col-md-8" style="margin-left: 54px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
-  <div class="toast-container position-fixed top-0 end-0 p-3">
-           
-  </div>
-  
 
-    <% productdetails.forEach((product) => { %>
-     
-<div  class="card mt-3 p-3 text-center " style="width: 16rem;height: 500px; " > 
-  
-  <a href="/singleproduct?id=<%=product.productID%>" style="height: 100%; margin-top: 15px; background-color: aliceblue;" class="btn btn-primary justify-content-center">
-     
-    <img style="width: 90%; height: 100%; margin: auto;" src="/static/uploads/<%= product.mainImage %>" class="card-img-top pt-2 hovereffect" alt="<%= product.productName%>">
-  </a>
-  
-    <div class="card-body">
-      <h5 class="card-title "><%= product.productName%></h5>
-      <!-- <p class="card-text "><%= product.productDescription %></p> -->
-      <p class="card-text "><span class="text-success font-weight-bold" ><%= product.productStock ? "IN STOCK" : "OUT OF STOCK" %>
-      <h6 class="card-text "><span>&#8377;</span><%= product.productPrice %></h6>
+  <div class="container">
+    <div class="row">
+      <% productdetails.forEach((product) => { %>
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+          <div class="card" >
+            <a href="/singleproduct?id=<%= product.productID %>">
+              <img src="/static/uploads/<%= product.mainImage %>" class="card-img-top hovereffect" alt="<%= product.productName %>">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.productName %></h5>
+              <p class="card-text">
+                <span class="text-success font-weight-bold"><%= product.productStock ? "IN STOCK" : "OUT OF STOCK" %></span>
+                <br>
+                <span>&#8377;</span><%= product.productPrice %>
+              </p>
+            </div>
+            <div class="d-flex justify-content-center">
+              <span class="material-symbols-sharp btn btn-outline-primary border-0" style="width: 45px; height: 30px;"
+                onclick="addTowish('<%= product.productID %>')">favorite</span>
+            </div>
+            <button class="btn btn-primary mt-3 btn-block" onclick="addToBag('<%= product.productID %>')">Add to Cart</button>
+          </div>
+        </div>
+      <% }) %>
     </div>
-
-    <span class="material-symbols-sharp btn btn-outline-primary border-0" style=" width: 45px; height: 30px; margin: auto; padding: 5px;" onclick="addTowish('<%= product.productID %>')" >
-      favorite
-      </span>
-
-   
-    <button class="btn btn-primary mt-3" id="addToBag" style="width:220px;height: 50px;" onclick="addToBag('<%= product.productID %>')" >Add to Cart</button>
-    
- 
-
-    
-  
   </div>
-
-<!-- </div> -->
-
-
-
-  <% }) %>
-</div>
 
 </div>
  
