@@ -28,7 +28,7 @@ app.use("/", userRoute);
 const adminRoute = require("./router/adminRoutes");
 app.use("/admin", adminRoute);
 
-app.get('*', function (req, res) {
+app.get('/*', function (req, res) {
     res.render('404error');
   })
 

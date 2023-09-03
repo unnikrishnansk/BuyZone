@@ -49,7 +49,6 @@ const loadRegister = (req, res) => {
   }
   catch (err) {
     console.log(err.message);
-    res.render('404error');
   }
 }
 
