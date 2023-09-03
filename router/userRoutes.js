@@ -48,7 +48,7 @@ user_route.use(express.urlencoded({ extended: true }));
 user_route.use(nocache());
 
 
-user_route.get('/',userController.loadBrowsepage);
+user_route.get('/', Userauth.isLogout,userController.loadBrowsepage);
 
 user_route.get('/register', Userauth.isLogout, userController.loadRegister);
 

@@ -149,6 +149,19 @@ const verifyRegister = async (req, res) => {
   }
 }
 
+
+const loadBrowsepage = async (req,res) => {
+  try{
+    let banner = await bannerCollection.find({});
+    const productdetails = await productCollection.find({});
+    console.log("here landingpage")
+    res.render('browsePage',{banner,productdetails})
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
 const loadHomepage = async (req, res) => {
   try {
     if (req.session.user) {
@@ -1024,16 +1037,6 @@ const orderInvoice = async (req,res) => {
   }
 }
 
-const loadBrowsepage = async (req,res) => {
-  try{
-    let banner = await bannerCollection.find({});
-    const productdetails = await productCollection.find({});
-    res.render('browsePage',{banner,productdetails})
-  }
-  catch(err){
-    console.log(err)
-  }
-}
 const userbrowseSearchproducts = async (req,res) => {
   try{
     let banner = await bannerCollection.find({});

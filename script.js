@@ -28,9 +28,9 @@ app.use("/", userRoute);
 const adminRoute = require("./router/adminRoutes");
 app.use("/admin", adminRoute);
 
-app.get('/*', function (req, res) {
-    res.render('404error');
-  })
+// app.get('/*', function (req, res) {
+//     res.render('404error');
+//   })
 
 
 // listening to the port 
