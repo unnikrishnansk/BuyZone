@@ -19,12 +19,12 @@
                     <label class="container"><%= ordadd.firstname %>, <%= ordadd.lastname %>,  <%= ordadd.housename %>, <%= ordadd.city %>,  <%= ordadd.state %>, <br> <%= ordadd.postalcode %>, <br> <%= ordadd.mobile %>, <%= ordadd.country %>
                     </label>
                   </div>
-
+                  <%console.log(orders.orderStatus)%>
                   <% orders.map((order)=>{ %>
                     
                   <% if (order.orderStatus == "pending"){%> 
                     
-                    <div style=" width: 60%;margin-left: 10%">
+                    <div style=" width: 60%;margin-left: 10%" style="border: 1px solid red;">
                       <h6>Track status</h6>
                       <div class="d-flex justify-content-between fw-bold" style="margin-left: 15px;">
                         <div>Pending</div>

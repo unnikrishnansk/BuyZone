@@ -130,6 +130,9 @@ user_route.get('/invoice', Userauth.isLogin,userController.orderInvoice);
 
 user_route.post('/applycoupon', Userauth.isLogin,userController.getCoupon);
 
+user_route.get('*', function (req, res) {
+  res.render('404error');
+})
 
 
 module.exports = user_route;

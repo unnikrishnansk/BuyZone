@@ -996,6 +996,7 @@ const loadsingleorderdetails = async (req,res) => {
       let cartcount = cartData.length;
       const wishData = user.wish.items;
       let wishcount = wishData.length;
+      console.log(orders.orderid)
 
     res.render('singleorderdetails',{orders,ordadd,cartcount,wishcount});
   }
