@@ -4,7 +4,7 @@ dotenv.config();
 const PORT = process.env.PORT || 5001;
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://unnisk:Anjali*8075#@buyzoneclust.6iab9lo.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://unnisk:eDZcx1HtU7DCyKTu@buyzoneclust.6iab9lo.mongodb.net/?retryWrites=true&w=majority")
 .then(()=>{
     console.log("mongodb connected")
 })
@@ -27,6 +27,10 @@ app.use("/", userRoute);
 // for admin routes
 const adminRoute = require("./router/adminRoutes");
 app.use("/admin", adminRoute);
+
+app.get('*', function (req, res) {
+    res.render('404error');
+  })
 
 
 // listening to the port 

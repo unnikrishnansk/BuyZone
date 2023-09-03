@@ -64,7 +64,6 @@ const loadOtp = (req, res) => {
   }
   catch (err) {
     console.log(err.message);
-    res.render('404error');
   }
 }
 
@@ -81,7 +80,6 @@ const verifyOtp = (req, res) => {
   }
   catch (err) {
     console.log(err.message)
-    res.render('404error');
   }
 }
 
@@ -149,7 +147,6 @@ const verifyRegister = async (req, res) => {
   }
   catch (err) {
     console.log(err.message);
-    res.render('404error');
   }
 }
 
@@ -168,7 +165,6 @@ const loadHomepage = async (req, res) => {
   }
   catch (err) {
     console.log(err.message);
-    res.render('404error');
   }
 }
 
@@ -178,7 +174,6 @@ const loadLogin = (req, res) => {
   }
   catch (err) {
     console.log(err.message);
-    res.render('404error');
   }
 }
 
@@ -205,7 +200,6 @@ const verifyLogin = async (req, res) => {
   }
   } catch (err) {
     console.log(err)
-    res.render("404error");
   }
 
 }
@@ -229,7 +223,6 @@ const loadproducts = async (req, res) => {
   }
   catch (err) {
     console.log(err.message);
-    res.render('404error');
   }
 }
 
@@ -246,7 +239,6 @@ const loadSingleproduct = async (req, res) => {
   }
   catch (err) {
     console.log(err.message)
-    res.render('404error');
   }
 }
 
@@ -262,7 +254,6 @@ const logout = (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -299,7 +290,6 @@ const userSearchproducts = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -338,7 +328,6 @@ const addToBag = async (req, res) => {
     }
   } catch (err) {
     console.log("in addto bag>> ", err.message);
-    res.render('404error');
   }
 }
 
@@ -379,7 +368,6 @@ const addToWish = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -396,7 +384,6 @@ const loadWish = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -413,7 +400,6 @@ const loadCart = async (req, res) => {
   }
   catch (err) {
     console.log(err)
-    res.render('404error');
   }
 }
 
@@ -453,7 +439,6 @@ const loadshipping = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -477,7 +462,6 @@ const verifyshipping = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -493,7 +477,6 @@ const deletecartproduct = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -509,8 +492,6 @@ const deletewishproduct = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
-    res.render('404error');
   }
 }
 
@@ -544,7 +525,6 @@ const movetoCart = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -562,7 +542,6 @@ const loadeditAddress = async (req, res) => {
   }
   catch (err) {
     console.log(err.message);
-    res.render('404error');
   }
 }
 
@@ -587,7 +566,6 @@ const verifyeditaddress = async (req, res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -603,7 +581,7 @@ const removeAddress = async (req, res) => {
     res.redirect('/userprofile')
   }
   catch(err){
-    res.render('404error');
+    console.log(err);
   }
    
 }
@@ -626,7 +604,6 @@ const loadpayment = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -650,7 +627,6 @@ const getCoupon = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -668,7 +644,6 @@ const loadordersuccess = (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -689,7 +664,6 @@ const loadorders = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -786,7 +760,6 @@ const verifypayment = async (req, res) => {
       }
 } catch (error) {
     console.log(error.message);
-    res.render('404error');
 }
 }
 
@@ -824,7 +797,6 @@ const saveOrderUpi = async (req,res) => {
   }
   catch(err){
     console.log(err)
-    res.render('404error');
   }
 }
 
@@ -846,7 +818,6 @@ const cancelorderproduct = async (req, res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
  
 }
@@ -875,7 +846,6 @@ const showFilteredproducts = async (req, res) => {
   }
   catch (err) {
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -887,7 +857,6 @@ const returnorderproduct = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -928,7 +897,6 @@ const confirmreturnorder = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -941,7 +909,6 @@ const getselectedaddress = (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -964,7 +931,6 @@ const loadUserprofile = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -978,7 +944,6 @@ const uploadProfileimage = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -1002,7 +967,6 @@ const loadsingleorderdetails = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -1058,7 +1022,6 @@ const orderInvoice = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 
@@ -1070,7 +1033,6 @@ const loadBrowsepage = async (req,res) => {
   }
   catch(err){
     console.log(err)
-    res.render('404error');
   }
 }
 const userbrowseSearchproducts = async (req,res) => {
@@ -1097,7 +1059,6 @@ const userbrowseSearchproducts = async (req,res) => {
   }
   catch(err){
     console.log(err);
-    res.render('404error');
   }
 }
 

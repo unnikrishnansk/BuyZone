@@ -84,9 +84,6 @@ const loadHomepage = async (req,res) => {
           totalReturn:totalReturn.length,
           totalSaleAmount:totalSaleAmount
         }
-
-
-
           res.render('adminHomepage',{data})
           }
         }
@@ -334,9 +331,6 @@ const verifyEditproduct = async (req,res) => {
             image : filenames,
             productCategory: req.body.selectcategory}
           });
-        
-
-    
     res.redirect('/admin/productmanagement');
   }
   catch(err){
