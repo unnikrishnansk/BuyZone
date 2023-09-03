@@ -8,8 +8,8 @@ mongoose.connect("mongodb+srv://unnisk:eDZcx1HtU7DCyKTu@buyzoneclust.6iab9lo.mon
 .then(()=>{
     console.log("mongodb connected")
 })
-.catch(() => {
-    console.log("connection failed");
+.catch((err) => {
+    console.log("connection failed",err);
 });
 
 
