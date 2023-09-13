@@ -4,7 +4,7 @@ dotenv.config();
 const PORT = process.env.PORT || 5001;
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://unnisk:eDZcx1HtU7DCyKTu@buyzoneclust.6iab9lo.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect("mongodb://localhost:27017/buyzoneregister")
 .then(()=>{
     console.log("mongodb connected")
 })
@@ -17,6 +17,8 @@ const express = require("express");
 const app = express();
 const path = require('path');
 
+app.set('view engine', 'ejs');
+
 app.use('/static', express.static(path.join(__dirname, 'asset')));
 
 
@@ -28,9 +30,9 @@ app.use("/", userRoute);
 const adminRoute = require("./router/adminRoutes");
 app.use("/admin", adminRoute);
 
-// app.get('/*', function (req, res) {
-//     res.render('404error');
-//   })
+app.get('*', function (req, res) {
+    res.render('404error');
+  })
 
 
 // listening to the port 

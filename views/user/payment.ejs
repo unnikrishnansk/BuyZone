@@ -373,7 +373,7 @@ function showToast(message, type) {
  }
 
  let price = document.querySelector('#totalbef').textContent.trim();
-console.log(price)
+// console.log(price)
 
 $(document).ready(function () {
       $('.couponDetails').submit(function (e) {
@@ -393,14 +393,14 @@ $(document).ready(function () {
                 }else if(res.status == "coupon available"){
                   let discount = Math.floor(price * (res.per /100));
                   let afterDisc = price - discount
-                  console.log(discount,afterDisc)
+                  // console.log(discount,afterDisc)
                   document.querySelector('#couponspace').style.display = 'block';
                   document.querySelector('#coupontotal').innerHTML = discount;
                   document.querySelector('#totalbef').innerHTML = afterDisc;
                   document.querySelector('input[name="amount"]').value = afterDisc;
                   showToast('coupon applied', 'success');
                 }
-                console.log(res.status,res.per,res.minamnt)
+                // console.log(res.status,res.per,res.minamnt)
               }
             })
           })

@@ -15,9 +15,14 @@
           </div>
           <div class="card-body pt-0" >
 
-
-
-            <div class="widget-49 d-flex justify-content-between" >
+<label><strong>Delivery Address : </strong></label>
+          <% if(locals.addressdet){%>
+            <label class="container"><%= addressdet.firstname %>, <%= addressdet.lastname %>,  <%= addressdet.housename %>, <%= addressdet.city %>,  <%= addressdet.state %>, <br> <%= addressdet.postalcode %>, <br> <%= addressdet.mobile %>, <%= addressdet.country %>
+            </label>
+           <%}%>
+            
+            <div class="widget-49 d-flex justify-content-between mt-3" >
+            
               <% orders.forEach((order)=> { %>
                 <div style="box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;width: 35%;"
                   class="p-3">
@@ -49,7 +54,7 @@
                               <option name="pending" value="pending" >Pending</option>
                               <option name="confirmed" value="confirmed">Confirmed</option>
                               <option name="intransit" value="intransit">In-transit</option>
-                              <option name="outfordelivery" value="outfordelivery">Out for delivery</option>
+                              <!-- <option name="outfordelivery" value="outfordelivery">Out for delivery</option> -->
                               <option name="delivered" value="delivered">Delivered</option>
 
                             </select>
@@ -86,24 +91,28 @@
                   </div>
                   
                 </div>
+
+                <div class=" mb-4 pb-2 ml-5"
+                style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;padding: 15px; border-radius: 10px; margin-top: 20px;margin-left: 10px;width: 50%;">
                 <% order.orderItems.forEach((prod)=>{ %>
 
-                  <div class="d-flex flex-row mb-4 pb-2 ml-5"
-                    style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;padding: 15px; border-radius: 10px; margin-top: 20px;margin-left: 10px;width: 35%;">
-                    <div class="flex-fill">
-                      <h5 class="bold">
-                        <%=prod.name %>
-                      </h5>
+                 
+                    <div class="d-flex justify-content-between">
                       <img style="width: 100px; height: 60px;" src="/static/uploads/<%=prod.image%>" alt="">
-                      <p class="text-muted fw-bold"> Qty: <%=prod.quantity%>
+                      <h6>
+                        <%=prod.name %>
+                      </h6>
+                      
+                      <p class="text-muted fw-bold ml-3"> Qty: <%=prod.quantity%>
                       </p>
-                      <h4 class="mb-3 fw-bold"> Price : <span>&#8377; <%= prod.price %>
+                      <h4 class="mb-3"><span>&#8377; <%= prod.price %>
                         </span>
                       </h4>
-                      <div class="d-flex justify-content-between">
+                    </div>
+                      <div class=" justify-content-between">
                         <hr style="color: black;">
                       </div>
-                    </div>
+                    
                     <div>
                       <img class="align-self-center img-fluid" src="" width="250">
                     </div>
@@ -118,8 +127,9 @@
                           style="text-decoration: none;margin-left: 5px;" href="#!">Return</a>
                       </h5>
                     </div> -->
-                  </div>
+                 
                   <% }) %>
+                </div>
                   <h4 class="mt-5 " style="margin-left: 15px;">Total Price : &#8377;<%= order.totalAmount%></h4>
                 <% }) %>
             </div>

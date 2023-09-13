@@ -23,6 +23,9 @@ const orderSchema = new mongoose.Schema({
     totalAmount: {
         type: Number,
     },
+    address : {
+        type : Array
+    },
     purchaseDate: {
         type: Date,
         default: new Date()

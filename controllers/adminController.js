@@ -32,6 +32,7 @@ const loadLogin = (req,res) => {
         res.render('adminLogin')
     }
     catch(err){
+      res.status(500).send("Something went wrong")
         console.log(err.message)
     }
 }
@@ -88,8 +89,9 @@ const loadHomepage = async (req,res) => {
           }
         }
         catch(err){
-                 console.log(err.message)
-            }
+          res.status(500).send("Something went wrong")
+          console.log(err.message)
+          }
         }
 
 // load admin user management page        
@@ -99,31 +101,39 @@ const loadUsermanagementpage = async (req,res) => {
         res.render('userManagement',{checked})
       }
       catch(err){
-               console.log(err.message)
-          }
+        res.status(500).send("Something went wrong")
+        console.log(err.message)
+        }
       }
 
       // admin user search 
 const searchUser = async (req,res) => {
-        let searchName = req.query.search;
+  try{
+    let searchName = req.query.search;
 
-        const searchData = await userCollection.find({
-          $or: [
-            { username: { $regex: '^' + searchName } },
-            { userid: { $regex: '^' + searchName } },
-            { email: { $regex: '^' + searchName } }
-          ]
-        });
+    const searchData = await userCollection.find({
+      $or: [
+        { username: { $regex: '^' + searchName } },
+        { userid: { $regex: '^' + searchName } },
+        { email: { $regex: '^' + searchName } }
+      ]
+    });
 
-        if(searchData == ""){
-          res.render("userManagement",{message : "User with this username doesnot exist",checked : searchData})
-        }
-        else{
-          res.render("userManagement",{title : "Admin System", checked :searchData})
-        }
+    if(searchData == ""){
+      res.render("userManagement",{message : "User with this username doesnot exist",checked : searchData})
+    }
+    else{
+      res.render("userManagement",{title : "Admin System", checked :searchData})
+    }
+  }
+  catch(err){
+    res.status(500).send("Something went wrong")
+  }
+       
 } 
 
 const userBlockstatus = async (req,res) => {
+  try{
     let blockstatus = await userCollection.find({name : req.query.name},{isblocked: 1})
     if(blockstatus[0].isblocked == true){
         await userCollection.updateOne({name: req.query.name}, {$set : {isblocked : false}})
@@ -131,6 +141,11 @@ const userBlockstatus = async (req,res) => {
         await userCollection.updateOne({name: req.query.name}, {$set : {isblocked : true}})
     }
     res.redirect('/admin/usermanagement');
+  }
+  catch(err){
+    res.status(500).send("Something went wrong")
+  }
+    
 }
 
 const loadCategorypage = async (req,res) => {
@@ -139,11 +154,13 @@ const loadCategorypage = async (req,res) => {
         res.render('categoryManagement',{checked});
     }
     catch(err){
-        console.log(err);
+      res.status(500).send("Something went wrong")
+      console.log(err);
     }
 }
 
 const searchCategory = async (req,res) => {
+  try{
     let searchName = req.query.search;
     const searchData = await categoryCollection.find({
       $or: [
@@ -158,6 +175,11 @@ const searchCategory = async (req,res) => {
     else{
       res.render("categoryManagement",{title : "Admin System", checked :searchData})
     }
+  }
+  catch(err){
+    res.status(500).send("Something went wrong")
+  }
+    
 } 
 
 const loadAddcategory = (req,res) => {
@@ -165,6 +187,7 @@ const loadAddcategory = (req,res) => {
     res.render('addcategory');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -191,6 +214,7 @@ const verifyaddCategory = async (req,res) => {
   }
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -202,6 +226,7 @@ const loadCategoryedit = async (req,res) => {
     res.render('editCategory',{check});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -213,12 +238,14 @@ const deleteCategory  = async (req,res) => {
     res.redirect('/admin/categorymanagement');
   }
   catch(err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
 
 const verifyeditCategory = async (req,res) => {
-  const id = req.body.categoryid;
+  try{
+    const id = req.body.categoryid;
   await categoryCollection.updateOne({
     categoryID : id
   },
@@ -231,6 +258,11 @@ const verifyeditCategory = async (req,res) => {
     }
   });
   res.redirect("/admin/categorymanagement");
+  }
+  catch(err){
+    res.status(500).send("Something went wrong")
+  }
+  
 
 }
 
@@ -244,16 +276,18 @@ const loadProductpage = async (req,res) => {
       res.render('productManagement',{checked,page,limit,countpages});
   }
   catch(err){
-      console.log(err);
+    res.status(500).send("Something went wrong")
+    console.log(err);
   }
 }
 
 const loadAddproduct = async (req,res) => {
   try{
     const categorydata = await categoryCollection.find({},{categoryName:1});
-    res.render('addproduct',{categorydata});
+    res.render('addProduct',{categorydata});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -295,6 +329,7 @@ const verifyAddproduct = async (req,res) => {
     res.redirect('/admin/productmanagement');
 }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -334,24 +369,31 @@ const verifyEditproduct = async (req,res) => {
     res.redirect('/admin/productmanagement');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
 
 const searchProduct = async (req,res) => {
-  let searchName = req.query.search;
-  const searchData = await productCollection.find({
-    $or: [
-      { productName: { $regex: '^' + searchName } },
-      { productID: { $regex: '^' + searchName } }
-    ]
-  });
-  if(searchData == ""){
-    res.render("productManagement",{message : "Searched product doesnot exist",checked : searchData})
+  try{
+    let searchName = req.query.search;
+    const searchData = await productCollection.find({
+      $or: [
+        { productName: { $regex: '^' + searchName } },
+        { productID: { $regex: '^' + searchName } }
+      ]
+    });
+    if(searchData == ""){
+      res.render("productManagement",{message : "Searched product doesnot exist",checked : searchData})
+    }
+    else{
+      res.render("productManagement",{title : "Admin System", checked :searchData})
+    }
   }
-  else{
-    res.render("productManagement",{title : "Admin System", checked :searchData})
+  catch(err){
+    res.status(500).send("Something went wrong")
   }
+  
 } 
 
 
@@ -364,6 +406,7 @@ const loadeditProduct = async (req,res) => {
     res.render('editProduct',{check , categorydata});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -375,6 +418,7 @@ const deleteProduct = async (req,res) => {
     res.redirect('/admin/productmanagement');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -391,6 +435,7 @@ const adminlogout = async (req,res) => {
     });
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -410,6 +455,7 @@ const deleteImage = async (req,res) => {
     res.render('editproduct',{check,categorydata});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -422,6 +468,7 @@ const loadOrderpage = async (req,res) => {
     res.render('orderManagement',{orders});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -437,6 +484,7 @@ const verifycahngedate = async (req,res) => {
     res.render('orderAdmindetails',{orders})
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -445,11 +493,15 @@ const loadAdminorder = async (req,res) => {
   try{
     let id = req.query.id
     const order = await ordercollection.findOne({orderid:id});
+    const addressdet = order.address[0];
+    console.log(addressdet);
     let orders = [order];
-    // console.log(orders)
-    res.render('orderAdmindetails',{orders})
+    
+    console.log(orders)
+    res.render('orderAdmindetails',{orders,addressdet})
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -465,6 +517,7 @@ const verifychangestatus = async (req,res) => {
     res.render('orderAdmindetails',{orders})
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 }
@@ -477,6 +530,7 @@ const loadCouponmanagementpage = async (req,res) =>{
     res.render('couponManagement',{coupons});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 }
@@ -501,6 +555,7 @@ const verifyaddCoupon = async (req,res) =>{
     res.redirect('/admin/couponmanagement');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 }
@@ -512,6 +567,7 @@ const discardCoupon = async (req,res) => {
     res.redirect('/admin/couponmanagement');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err)
 }
 }
@@ -524,6 +580,7 @@ const editCoupon = async (req,res) => {
     res.render('editCoupon',{coupon});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 }
@@ -540,6 +597,7 @@ const VerifyeditCoupon = async (req,res) => {
     res.redirect('/admin/couponmanagement');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -551,6 +609,7 @@ const Loadlisted = async (req,res) => {
     res.render('couponManagement',{coupons:result});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -568,6 +627,7 @@ const changetolisted = async (req,res) => {
     res.redirect('/admin/couponmanagement');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -578,8 +638,8 @@ const Loadunlisted = async (req,res) => {
     console.log("unlisted",result);
     res.render('couponManagement',{coupons:result});
   }
-  catch(err)
-{
+  catch(err){
+  res.status(500).send("Something went wrong")
   console.log(err);
 }
 }
@@ -590,6 +650,7 @@ const LoadBanner = async (req,res) => {
     res.render('bannerManagement',{banners});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -599,6 +660,7 @@ const LoadaddBanner = (req,res) =>{
     res.render('addBanner');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -620,6 +682,7 @@ const VerifyaddBanner = async (req,res) =>{
   }
   
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -631,6 +694,7 @@ const LoadeditBanner = async (req,res) =>{
     res.render('editBanner',{banners});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -655,6 +719,7 @@ const VerifyeditBanner = async (req,res) =>{
   }
   
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -679,6 +744,7 @@ const searchBanner = async (req,res) => {
   }
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
   
@@ -691,6 +757,7 @@ const deleteBanner = async (req,res) => {
     res.redirect('/admin/bannermanagement');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -854,7 +921,8 @@ const LoadReport = async (req,res) => {
           res.render('salesReport',{sales,heading})
     }
   }catch(err){
-          console.log("in report>> ",err.message)
+    res.status(500).send("Something went wrong")
+    console.log("in report>> ",err.message)
   }
 }
 
@@ -1016,6 +1084,7 @@ const LoaddownloadReport = async (req,res) => {
   console.log('PDF report generated successfully.');
 
   }catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 }

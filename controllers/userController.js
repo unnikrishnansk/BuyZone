@@ -48,6 +48,7 @@ const loadRegister = (req, res) => {
     res.render('register');
   }
   catch (err) {
+    res.status(500).send("Somrthing went wrong")
     console.log(err.message);
   }
 }
@@ -62,6 +63,7 @@ const loadOtp = (req, res) => {
     res.render('otp');
   }
   catch (err) {
+    res.status(500).send("Somrthing went wrong")
     console.log(err.message);
   }
 }
@@ -71,13 +73,14 @@ const verifyOtp = (req, res) => {
     let { first, second, third, fourth, fifth, sixth } = req.body;
     let [first1, second1, third1, fourth1, fifth1, sixth1] = otp;
     if (first == first1 && second == second1 && third == third1 && fourth == fourth1 && fifth == fifth1 && sixth == sixth1) {
-      res.redirect('/homepage');
+      res.redirect('/');
     }
     else {
       res.render('otp', { message: "Otp verification failed" })
     }
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err.message)
   }
 }
@@ -115,6 +118,7 @@ const securePassword = async (password) => {
     return passwordHash;
   }
   catch (error) {
+    res.status(500).send("Something went wrong")
     console.log(error.message)
   }
 }
@@ -145,6 +149,7 @@ const verifyRegister = async (req, res) => {
     }
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -158,13 +163,14 @@ const loadBrowsepage = async (req,res) => {
     res.render('browsePage',{banner,productdetails})
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 }
 
 const loadHomepage = async (req, res) => {
   try {
-    if (req.session.user) {
+    if(req.session.user){
       const categorydetails = await categoryCollection.find({});
       const user = await userCollection.findOne({ username: req.session.user }, { cart: 1 ,wish:1});
       const cartData = user.cart.items;
@@ -172,10 +178,17 @@ const loadHomepage = async (req, res) => {
       const wishData = user.wish.items;
       let wishcount = wishData.length;
       let banner = await bannerCollection.find({});
-      res.render('homepage', { categorydetails, user: req.session.user, cartcount,banner,wishcount});
+      res.render('homepage', { categorydetails,cartcount,wishcount, banner,session:true});
+    }else{
+      const categorydetails = await categoryCollection.find({});
+      let banner = await bannerCollection.find({});
+      res.render('homepage', { categorydetails, banner,session:false});
     }
+      
+    
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -185,6 +198,7 @@ const loadLogin = (req, res) => {
     res.render('login');
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -205,12 +219,13 @@ const verifyLogin = async (req, res) => {
       req.session.user = check.username;
       req.session.user1 = true
       console.log(req.s)
-      res.redirect("/homepage");
+      res.redirect("/");
     } else {
       res.render("login", { message: "Invalid password" });
     }
   }
   } catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 
@@ -234,6 +249,7 @@ const loadproducts = async (req, res) => {
     res.render('userProducts', { productdetails, page, limit, category, countpages, cartcount ,wishcount,categoryData,user: req.session.user});
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -250,6 +266,7 @@ const loadSingleproduct = async (req, res) => {
     res.render('singleProduct', { singleproduct, cartcount,wishcount, user: req.session.user });
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err.message)
   }
 }
@@ -265,6 +282,7 @@ const logout = (req, res) => {
     });
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -293,14 +311,36 @@ const userSearchproducts = async (req, res) => {
     console.log(searchedproduct)
     const categoryData = await categoryCollection.find({},{categoryName:1});
 
-    if (searchedproduct == "") {
-      res.render("userSearch", { message: "Searched item doesnot exist", productdetails: searchedproduct, items,categoryData,user: req.session.user })
+    if(req.session.user){
+      if (searchedproduct == "") {
+        const user = await userCollection.findOne({ username: req.session.user }, { cart: 1,wish:1 });
+        const cartData = user.cart.items;
+        let cartcount = cartData.length;
+        const wishData = user.wish.items;
+        let wishcount = wishData.length;
+        res.render("userSearch", { message: "Searched item doesnot exist", productdetails: searchedproduct, items,categoryData, cartcount,wishcount,user: req.session.user,session:true })
+      }
+      else {
+        const user = await userCollection.findOne({ username: req.session.user }, { cart: 1,wish:1 });
+        const cartData = user.cart.items;
+        let cartcount = cartData.length;
+        const wishData = user.wish.items;
+        let wishcount = wishData.length;
+        res.render("userSearch", { title: "Admin System", productdetails: searchedproduct, items, search,categoryData, cartcount,wishcount,user: req.session.user,session:true })
+      }
+    }else{
+      if (searchedproduct == "") {
+        res.render("userSearch", { message: "Searched item doesnot exist", productdetails: searchedproduct, items,categoryData,session:false})
+      }
+      else {
+        res.render("userSearch", { title: "Admin System", productdetails: searchedproduct, items, search,categoryData,user: req.session.user,session:false })
+      }
     }
-    else {
-      res.render("userSearch", { title: "Admin System", productdetails: searchedproduct, items, search,categoryData,user: req.session.user })
-    }
+
+   
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -339,6 +379,7 @@ const addToBag = async (req, res) => {
       res.send(JSON.stringify("login"))
     }
   } catch (err) {
+    res.status(500).send("Something went wrong")
     console.log("in addto bag>> ", err.message);
   }
 }
@@ -379,6 +420,7 @@ const addToWish = async (req,res) => {
     }
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -395,6 +437,7 @@ const loadWish = async (req,res) => {
     res.render('wishlist', { wishData, wishcount, cartcount, user: req.session.user  });
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -411,6 +454,7 @@ const loadCart = async (req, res) => {
 
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 }
@@ -450,6 +494,7 @@ const loadshipping = async (req, res) => {
     res.render('shippingAddress', { details, cartcount ,user: req.session.user,wishcount });
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -473,6 +518,7 @@ const verifyshipping = async (req, res) => {
     res.redirect('/userprofile');
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -488,6 +534,7 @@ const deletecartproduct = async (req, res) => {
     res.redirect('/cart')
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -503,6 +550,7 @@ const deletewishproduct = async (req, res) => {
     res.redirect('/wishlist')
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -536,6 +584,7 @@ const movetoCart = async (req, res) => {
     res.redirect('/wishlist')
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -553,6 +602,7 @@ const loadeditAddress = async (req, res) => {
     res.render('editAddress', { check, cartcount,user: req.session.user  });
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
@@ -577,6 +627,7 @@ const verifyeditaddress = async (req, res) => {
     res.redirect("/userprofile");
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -593,6 +644,7 @@ const removeAddress = async (req, res) => {
     res.redirect('/userprofile')
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
    
@@ -615,6 +667,7 @@ const loadpayment = async (req, res) => {
     }
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -638,6 +691,7 @@ const getCoupon = async (req,res) => {
    
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -650,11 +704,12 @@ const loadordersuccess = (req, res) => {
     if(req.session.users == false){
       res.render('orderSuccesspage');
     }else{
-      res.redirect('/homepage');
+      res.redirect('/');
     }
     
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -675,6 +730,7 @@ const loadorders = async (req, res) => {
     res.render('orderdetails', { orders, cartcount,wishcount,user: req.session.user  });
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -690,6 +746,8 @@ const verifypayment = async (req, res) => {
   try {
     const paymentMethod=req.body.payment;
     const address = req.body.selected;
+    const addressdetails = await userCollection.findOne({'address.addressid':address},{'address.$':1})
+    console.log("addressdetails",addressdetails.address)
     const user = await userCollection.findOne({ username: req.session.user }, { cart: 1, username: 1 });
     const username = user.username;
     const randromId = generateIds();
@@ -707,7 +765,7 @@ const verifypayment = async (req, res) => {
       return { productID: item.productId, quantity: item.quantity, price: item.price, image: item.prodImage, name: item.name };
     });
     let totalamount = parseInt(req.body.amount);
-
+console.log(req.body.selected)
      data = {
       orderid: ordid,
       userdetails: username,
@@ -715,10 +773,11 @@ const verifypayment = async (req, res) => {
       paymentMethod: paymentMethod,
       orderItems: orderitems,
       addressId : address,
+      address : addressdetails.address,
       totalAmount: totalamount
     };
 
-      console.log(data)
+      console.log("data",data)
 
       if(paymentMethod == 'upi'){
         const amount=parseInt(req.body.amount)*100;
@@ -771,6 +830,7 @@ const verifypayment = async (req, res) => {
           res.status(200).send({method:'cod'})
       }
 } catch (error) {
+  res.status(500).send("Something went wrong")
     console.log(error.message);
 }
 }
@@ -808,6 +868,7 @@ const saveOrderUpi = async (req,res) => {
 
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err)
   }
 }
@@ -829,6 +890,7 @@ const cancelorderproduct = async (req, res) => {
     res.redirect('/order');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
  
@@ -857,6 +919,7 @@ const showFilteredproducts = async (req, res) => {
         res.render('userSearch', { productdetails:productList,categoryData});
   }
   catch (err) {
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -868,6 +931,7 @@ const returnorderproduct = async (req,res) => {
     res.render('returnOrder',{prodid,orderid});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -908,6 +972,7 @@ const confirmreturnorder = async (req,res) => {
     }
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -920,6 +985,7 @@ const getselectedaddress = (req,res) => {
     res.redirect('/payment')
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -942,6 +1008,7 @@ const loadUserprofile = async (req,res) => {
     res.render('userProfile',{cartcount, wishcount,user:req.session.user,userdetails,details,coupons});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -955,6 +1022,7 @@ const uploadProfileimage = async (req,res) => {
     res.redirect('/userprofile');
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -978,6 +1046,7 @@ const loadsingleorderdetails = async (req,res) => {
     res.render('singleorderdetails',{orders,ordadd,cartcount,wishcount});
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -1033,6 +1102,7 @@ const orderInvoice = async (req,res) => {
  doc.end();
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }
@@ -1060,6 +1130,7 @@ const userbrowseSearchproducts = async (req,res) => {
 
   }
   catch(err){
+    res.status(500).send("Something went wrong")
     console.log(err);
   }
 }

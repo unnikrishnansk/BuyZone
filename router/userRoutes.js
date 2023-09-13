@@ -48,7 +48,7 @@ user_route.use(express.urlencoded({ extended: true }));
 user_route.use(nocache());
 
 
-user_route.get('/', Userauth.isLogout,userController.loadBrowsepage);
+user_route.get('/',userController.loadHomepage);
 
 user_route.get('/register', Userauth.isLogout, userController.loadRegister);
 
@@ -58,31 +58,31 @@ user_route.get('/otp', userController.loadOtp);
 
 user_route.post('/otp', Userauth.isLogout, userController.verifyOtp);
 
-user_route.get('/homepage', Userauth.isLogin, userController.loadHomepage);
+// user_route.get('/',  userController.loadHomepage);
 
 user_route.get('/login', Userauth.isLogout, userController.loadLogin);
 
 user_route.post('/login', userController.verifyLogin);
 
-user_route.get('/products', Userauth.isLogin, userController.loadproducts);
+user_route.get('/products',Userauth.isblock, Userauth.isLogin, userController.loadproducts);
 
-user_route.get('/singleproduct', Userauth.isLogin, userController.loadSingleproduct);
+user_route.get('/singleproduct',Userauth.isblock, Userauth.isLogin, userController.loadSingleproduct);
 
 user_route.get('/logout', Userauth.isLogin, userController.logout);
 
-user_route.get('/userproducts/search', userController.userSearchproducts);
+user_route.get('/userproducts/search',Userauth.isblock, userController.userSearchproducts);
 
 user_route.get('/searchbrowseproducts/search', userController.userbrowseSearchproducts);
 
-user_route.post('/api/addtoBag', userController.addToBag);
+user_route.post('/api/addtoBag',Userauth.isblock, userController.addToBag);
 
-user_route.post('/api/addtowish', userController.addToWish);
+user_route.post('/api/addtowish',Userauth.isblock, userController.addToWish);
 
 user_route.post('/api/updateQuantity', userController.updateQuantity);
 
-user_route.get('/cart', Userauth.isLogin, userController.loadCart);
+user_route.get('/cart',Userauth.isblock, Userauth.isLogin, userController.loadCart);
 
-user_route.get('/wishlist', Userauth.isLogin, userController.loadWish);
+user_route.get('/wishlist',Userauth.isblock, Userauth.isLogin, userController.loadWish);
 
 user_route.get('/shipping', Userauth.isLogin, userController.loadshipping);
 
@@ -100,13 +100,13 @@ user_route.post('/editaddress', Userauth.isLogin, userController.verifyeditaddre
 
 user_route.get('/removeaddress', userController.removeAddress);
 
-user_route.get('/payment', Userauth.isLogin, userController.loadpayment);
+user_route.get('/payment',Userauth.isblock, Userauth.isLogin, userController.loadpayment);
 
 user_route.post('/payment', userController.verifypayment);
 
 user_route.get('/ordersuccess', Userauth.isLogin, userController.loadordersuccess);
 
-user_route.get('/order', Userauth.isLogin, userController.loadorders);
+user_route.get('/order',Userauth.isblock, Userauth.isLogin, userController.loadorders);
 
 user_route.get('/cancelorder', userController.cancelorderproduct);
 
@@ -120,7 +120,7 @@ user_route.post('/savingdata', Userauth.isLogin,userController.saveOrderUpi);
 
 user_route.post('/selectedaddress', Userauth.isLogin, userController.getselectedaddress);
 
-user_route.get('/userprofile', Userauth.isLogin, userController.loadUserprofile);
+user_route.get('/userprofile',Userauth.isblock, Userauth.isLogin, userController.loadUserprofile);
 
 user_route.post('/addprofileimage', Userauth.isLogin,upload.single('file'), userController.uploadProfileimage);
 

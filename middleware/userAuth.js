@@ -47,7 +47,7 @@ const isLogin = async (req, res, next) => {
   };
 
   const isblock = async (req,res,next) => {
-    const check = await userCollection.findOne({ username: req.session.user });
+    const check = await userCollection.findOne({ username: req.session.user || req.body.username});
     if(check.isblocked == false){
       next();
     }
