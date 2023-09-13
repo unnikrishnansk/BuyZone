@@ -4,7 +4,7 @@ dotenv.config();
 const PORT = process.env.PORT || 5001;
 
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/buyzoneregister")
+mongoose.connect("mongodb+srv://unnisk:eDZcx1HtU7DCyKTu@buyzoneclust.6iab9lo.mongodb.net/?retryWrites=true&w=majority")
 .then(()=>{
     console.log("mongodb connected")
 })
