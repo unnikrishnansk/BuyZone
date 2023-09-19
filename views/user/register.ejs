@@ -36,8 +36,8 @@
                             id="name"
                             name="name"
                             class="form-control"
-                            placeholder="Enter your name"
-                            onchange="checkName()"/>
+                            placeholder="Name"
+                            oninput="checkName()"/>
                           </div>
                         </div>
                         <span id="Name" class="pl-4"></span>
@@ -50,8 +50,8 @@
                               id="username"
                               name="username" 
                               class="form-control" 
-                              placeholder="Enter your username"
-                              onchange="checkUsername()"/>
+                              placeholder="Username"
+                              oninput="checkUsername()"/>
                             </div>
                           </div>
                           <span id="Username" class="pl-4"></span>
@@ -64,8 +64,8 @@
                             id="email" 
                             name="email"
                             class="form-control" 
-                            placeholder="Enter your Email" 
-                            onchange="checkMail()"/>
+                            placeholder="Email Address" 
+                            oninput="checkMail()"/>
                           </div>
                         </div>
                         <span id="Email" class="pl-4"></span>
@@ -78,8 +78,8 @@
                               name="mobile"
                               id="mobile" 
                               class="form-control" 
-                              placeholder="Enter your Mobile number" 
-                              onchange="checkMobile()"/>
+                              placeholder="Mobile number" 
+                              oninput="checkMobile()"/>
                             </div>
                           </div>
                           <span id="Mobile" class="pl-4"></span>
@@ -93,7 +93,7 @@
                             id="password" 
                             class="form-control" 
                             placeholder="Password" 
-                            onchange="passwordCheck()"/>
+                            oninput="passwordCheck()"/>
                           </div>
                         </div>
                         <span id="Password" class="pl-4"></span>
@@ -107,7 +107,7 @@
                             id="confirmpassword" 
                             class="form-control" 
                             placeholder="Confirm Password"
-                            onchange="checkConfirmPassword()"/>
+                            oninput="checkConfirmPassword()"/>
                           </div>
                         </div>
                         <span id="Confirmpassword" class="pl-4"></span>
@@ -122,8 +122,9 @@
       
                         <div class="text-center text-lg-center">
                             <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="/login"
-                                class="link-danger">Login</a></p>
+                                class="link-primary text-decoration-none ms-3 ">Login</a></p>
                           </div>
+                          <p class="small fw-bold mt-4 pt-1 mb-0">By creating an account or logging in, you agree to Buyzone Conditions of Use and Privacy Policy.</p>
 
                       </form>
       
@@ -148,15 +149,22 @@
   function checkName(){
     let name = document.getElementById('name').value;
             if(name == ""){
-                document.getElementById('Name').innerHTML = "Name is required";
+                document.getElementById('Name').innerHTML = "Name is required.";
                 document.getElementById('Name').style.color = 'red';
+                document.getElementById('Name').style.fontWeight = '500';
                 document.getElementById('name').style.border = '1px solid red';
                 return false;
             }else if(/^[A-Za-z\s]+$/.test(name)==false){
-                document.getElementById("Name").innerHTML="Enter correct name";
+                document.getElementById("Name").innerHTML="Enter correct name.";
                 document.getElementById('Name').style.color='red'
+                document.getElementById('Name').style.fontWeight = '500';
                 document.getElementById('name').style.border = '1px solid red';
                 return false;
+            }else if(name.length<3){
+                document.getElementById("Name").innerHTML="Name must contain atleast 3 characters.";
+                document.getElementById('Name').style.color='red'
+                document.getElementById('Name').style.fontWeight = '500';
+                document.getElementById('name').style.border = '1px solid red';
             }
             else{
                 document.getElementById('Name').innerHTML = "";
@@ -171,12 +179,18 @@
             if(username == ""){
                 document.getElementById('Username').innerHTML = "Username is required";
                 document.getElementById('Username').style.color = 'red';
+                document.getElementById('Username').style.fontWeight = '500';
                 document.getElementById('username').style.border = '1px solid red';
                 return false;
+            }else if(username.length<3){
+                document.getElementById("Username").innerHTML="Username must contain atleast 3 characters.";
+                document.getElementById('Username').style.color='red'
+                document.getElementById('Username').style.fontWeight = '500';
+                document.getElementById('username').style.border = '1px solid red';
             }
             else{
                 document.getElementById('Username').innerHTML = "";
-                document.getElementById('name').style.border = '1px solid grey'
+                document.getElementById('username').style.border = '1px solid grey'
                 return true;
             }
   }
@@ -186,11 +200,12 @@
                 if(/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email)==false){
                 document.getElementById("Email").innerHTML="Enter correct email";
                 document.getElementById('Email').style.color='red'
+                document.getElementById('Email').style.fontWeight = '500';
                 document.getElementById('email').style.border = '1px solid red';
                 return false;
                 }else{
                 document.getElementById("Email").innerHTML="";
-                document.getElementById('name').style.border = '1px solid grey'
+                document.getElementById('email').style.border = '1px solid grey'
                 return true;
                 }
   }
@@ -200,17 +215,19 @@
             if(mobile == ""){
                 document.getElementById('Mobile').innerHTML = "Mobile is required";
                 document.getElementById('Mobile').style.color = 'red';
+                document.getElementById('Mobile').style.fontWeight = '500';
                 document.getElementById('mobile').style.border = '1px solid red';
                 return false;
             }
-            else if(mobile.length!=10){
+            else if(/^\d{10}$/.test(mobile)==false){
               document.getElementById('Mobile').innerHTML = "Enter correct mobile number";
                 document.getElementById('Mobile').style.color = 'red';
+                document.getElementById('Mobile').style.fontWeight = '500';
                 document.getElementById('mobile').style.border = '1px solid red';
             }
             else{
                 document.getElementById('Mobile').innerHTML = "";
-                document.getElementById('name').style.border = '1px solid grey'
+                document.getElementById('mobile').style.border = '1px solid grey'
                 return true;
             }
   }
@@ -221,11 +238,12 @@
             if(password == ""){
                 document.getElementById('Password').innerHTML="Enter correct password";
                 document.getElementById('Password').style.color='red';
+                document.getElementById('Password').style.fontWeight = '500';
                 document.getElementById('password').style.border = '1px solid red';
                 return false;
             }else{
                 document.getElementById('Password').innerHTML="";
-                document.getElementById('name').style.border = '1px solid grey'
+                document.getElementById('password').style.border = '1px solid grey'
                 return true;
             }
         }
@@ -235,17 +253,19 @@
             if(password2 == ""){
                 document.getElementById('Confirmpassword').innerHTML="Enter a valid password";
                 document.getElementById('Confirmpassword').style.color='red';
+                document.getElementById('Confirmpassword').style.fontWeight = '500';
                 document.getElementById('confirmpassword').style.border = '1px solid red';
                 return false;
             }
             else if(password !== password2){
                 document.getElementById('Confirmpassword').innerHTML="Confirm password doesnt match";
                 document.getElementById('Confirmpassword').style.color='red';
+                document.getElementById('Confirmpassword').style.fontWeight = '500';
                 document.getElementById('confirmpassword').style.border = '1px solid red';
             }
             else{
                 document.getElementById('Confirmpassword').innerHTML="";
-                document.getElementById('name').style.border = '1px solid grey'
+                document.getElementById('confirmpassword').style.border = '1px solid grey'
                 return true;
             }
         }
