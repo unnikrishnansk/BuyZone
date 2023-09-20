@@ -31,6 +31,16 @@
       </form>
       <!-- ... (Other navbar items) ... -->
     </div>
+    <div class="p-4"><a class="dropdown-item" href="/cart"data-toggle="tooltip" data-placement="right" title="Cart" style="color: white;"><span class="material-symbols-outlined">
+      shopping_cart</span> 
+      <%if(locals.cartcount) {%>
+        <span id="cartc">
+          <%=cartcount%>
+        </span>
+        <%}else{%>
+          <span id="cartc"></span>
+          <%}%>
+        </a></div>
     <!-- ... (Dropdown, logout button) ... -->
     <div class="dropdown mr-3" style="margin-right: 10px;">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="material-symbols-outlined">
@@ -41,16 +51,7 @@
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
         <li><a class="dropdown-item" href="/order" data-toggle="tooltip" data-placement="right" title="Order history"><span class="material-symbols-outlined">
           order_approve</span>  Orders</a></li>
-        <li><a class="dropdown-item" href="/cart"data-toggle="tooltip" data-placement="right" title="Cart"><span class="material-symbols-outlined">
-          shopping_cart</span> Cart 
-          <%if(locals.cartcount) {%>
-            <span id="cartc">
-              (<%=cartcount%>)
-            </span>
-            <%}else{%>
-              <span id="cartc"></span>
-              <%}%>
-            </a></li>
+       
         <li><a class="dropdown-item" href="/userprofile" data-toggle="tooltip" data-placement="right" title="Profile"><span class="material-symbols-outlined">
           account_circle</span>  Profile</a></li>
           <li><a class="dropdown-item" href="/wishlist" data-toggle="tooltip" data-placement="right" title="wishlist"><span class="material-symbols-outlined">

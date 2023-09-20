@@ -178,11 +178,18 @@ const loadHomepage = async (req, res) => {
       const wishData = user.wish.items;
       let wishcount = wishData.length;
       let banner = await bannerCollection.find({});
-      res.render('homepage', { categorydetails,cartcount,wishcount, banner,session:true});
+      let featuredprod = await productCollection.aggregate([
+        { $sample: { size: 5 } }
+      ]);
+      // console.log(featuredprod)
+      res.render('homepage', { categorydetails,cartcount,wishcount, banner,featuredprod,session:true});
     }else{
       const categorydetails = await categoryCollection.find({});
       let banner = await bannerCollection.find({});
-      res.render('homepage', { categorydetails, banner,session:false});
+      let featuredprod = await productCollection.aggregate([
+        { $sample: { size: 8 } }
+      ]);
+      res.render('homepage', { categorydetails, banner,featuredprod,session:false});
     }
       
     
