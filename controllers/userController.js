@@ -170,25 +170,19 @@ const loadBrowsepage = async (req,res) => {
 
 const loadHomepage = async (req, res) => {
   try {
+    const categorydetails = await categoryCollection.find({});
+      let banner = await bannerCollection.find({});
+      let featuredprod = await productCollection.aggregate([
+        { $sample: { size: 8 } }
+      ]);
     if(req.session.user){
-      const categorydetails = await categoryCollection.find({});
       const user = await userCollection.findOne({ username: req.session.user }, { cart: 1 ,wish:1});
       const cartData = user.cart.items;
       let cartcount = cartData.length;
       const wishData = user.wish.items;
       let wishcount = wishData.length;
-      let banner = await bannerCollection.find({});
-      let featuredprod = await productCollection.aggregate([
-        { $sample: { size: 5 } }
-      ]);
-      // console.log(featuredprod)
       res.render('homepage', { categorydetails,cartcount,wishcount, banner,featuredprod,session:true});
     }else{
-      const categorydetails = await categoryCollection.find({});
-      let banner = await bannerCollection.find({});
-      let featuredprod = await productCollection.aggregate([
-        { $sample: { size: 8 } }
-      ]);
       res.render('homepage', { categorydetails, banner,featuredprod,session:false});
     }
       
