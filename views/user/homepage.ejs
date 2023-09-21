@@ -48,27 +48,7 @@
 </div>
 
 
-<h3 class="mt-2 p-2">Featured Products</h3>
 
-<hr class="mx-n3">
-
-<div class="container">
-  <div class="row">
-    <% featuredprod.forEach((feat) => { %>
-      <div class="col-md-3 mb-3">
-        <div class="card text-center h-100" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
-          <img src="/static/uploads/<%= feat.mainImage %>" class="card-img-top h-75" alt="lap">
-          <div class="card-body">
-            <h5 class="card-title"><%= feat.productName %></h5>
-            <p class="card-text"><%= feat.productDescription %></p>
-            <p class="card-text"><span>&#8377;
-            </span><strong><%= feat.productPrice %></strong></p>
-          </div>
-        </div>
-      </div>
-    <% }) %>
-  </div>
-</div>
 
 <%- include('footer')%>
 

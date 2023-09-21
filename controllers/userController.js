@@ -172,21 +172,17 @@ const loadHomepage = async (req, res) => {
   try {
     const categorydetails = await categoryCollection.find({});
       let banner = await bannerCollection.find({});
-      let featuredprod = await productCollection.aggregate([
-        { $sample: { size: 8 } }
-      ]);
+      let featuredprod = await productCollection.aggregate([{ $sample: { size: 8 } }]) || [];
     if(req.session.user){
       const user = await userCollection.findOne({ username: req.session.user }, { cart: 1 ,wish:1});
       const cartData = user.cart.items;
       let cartcount = cartData.length;
       const wishData = user.wish.items;
       let wishcount = wishData.length;
-      res.render('homepage', { categorydetails,cartcount,wishcount, banner,featuredprod,session:true});
+      res.render('homepage', { categorydetails,cartcount,wishcount, banner, featuredprod,session:true});
     }else{
-      res.render('homepage', { categorydetails, banner,featuredprod,session:false});
-    }
-      
-    
+      res.render('homepage', { categorydetails, banner, featuredprod,session:false});
+    } 
   }
   catch (err) {
     res.status(500).send("Something went wrong")
