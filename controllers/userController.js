@@ -9,6 +9,7 @@ const Razorpay = require('razorpay');
 const couponCollection = require('../model/couponModel');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
+const nodemailer = require("nodemailer");
 
 const dotenv = require('dotenv');
 const ordercollection = require('../model/orderModel');
@@ -18,8 +19,10 @@ const accountSid = process.env.ACCOUNTSID;
 const authToken = process.env.AUTHTOKEN;
 const razorpayId = process.env.RAZORPAY_ID_KEY;
 const razorpaySecretKey = process.env.RAZORPAY_SECRET_KEY;
+const senderGmail = process.env.USER;
+const appPassword = process.env.APP_PASSWORD;
 
-const client = require('twilio')(accountSid, authToken);
+// const client = require('twilio')(accountSid, authToken);
 
 
 function generateIds() {
@@ -48,31 +51,106 @@ const loadRegister = (req, res) => {
     res.render('register');
   }
   catch (err) {
-    res.status(500).send("Somrthing went wrong")
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
 
 // otp functionalities
 
+// SEND OTP TO MAIL USING NODEMAILER
+
 let otp = [];
-const loadOtp = (req, res) => {
+const loadOtp = async (req, res) => {
   try {
     otp = generateOTP(6);
-    sendTextMessage(otp);
+    // sendTextMessage(otp);
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.APP_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: {
+        name: "BuyZone",
+        sender: process.env.USER 
+      }, // sender address
+        to: req.session.email, // list of receivers
+        subject: "Verification Code for BuyZone", // Subject line
+        text: "Your verification code is : 23456", // plain text body
+        html: `<b>Your verification code is : ${otp}</b>`, // html body
+    }
+
+    sendMail(transporter,mailOptions);
+
+   
+
     res.render('otp');
   }
   catch (err) {
-    res.status(500).send("Somrthing went wrong")
+    res.status(500).send("Something went wrong")
     console.log(err.message);
   }
 }
 
-const verifyOtp = (req, res) => {
+const verifyRegister = async (req, res) => {
+  try {
+    let flag = false;
+    const checkname = await userCollection.findOne({ $or: [{ name: req.body.name }, { email: req.body.email }] });
+    if (checkname !== null) flag = true;
+    if (!flag) {
+      const randromId = generateIds();
+      const userid = "CUS" + randromId;
+      const securepassword = await securePassword(req.body.password);
+      const data = {
+        userid: userid,
+        name: req.body.name,
+        username: req.body.username,
+        email: req.body.email,
+        mobile: req.body.mobile,
+        password: securepassword,
+      };
+      req.session.email = data.email;
+      req.session.username = data.username;
+      await userCollection.insertMany([data]);
+      res.redirect("/otp");
+    }
+    else {
+      res.render('register', { message: "Username or Email already exists" });
+    }
+  }
+  catch (err) {
+    res.status(500).send("Something went wrong")
+    console.log(err.message);
+  }
+}
+
+// sending mail function for nodemailer
+const sendMail = async (transporter,mailOptions) =>{
+  try{
+    await transporter.sendMail(mailOptions);
+  }
+  catch(err){
+    console.error(err);
+  }
+}
+
+
+const verifyOtp = async (req, res) => {
   try {
     let { first, second, third, fourth, fifth, sixth } = req.body;
     let [first1, second1, third1, fourth1, fifth1, sixth1] = otp;
     if (first == first1 && second == second1 && third == third1 && fourth == fourth1 && fifth == fifth1 && sixth == sixth1) {
+      const check = await userCollection.findOne({ username: req.session.username});
+      req.session.user = check.username;
+      req.session.user1 = true
       res.redirect('/');
     }
     else {
@@ -99,16 +177,17 @@ function generateOTP(length) {
 
 // SEND OTP SMS TO MOBILE NUMBER USING TWILIO
 
-function sendTextMessage(otp) {
+// function sendTextMessage(otp) {
 
-  client.messages.create({
-    body: `<#> ${otp} is your Mybuzz verification code. Enjoy shopping!`,
-    to: '+918075180897', // Text your number
-    from: '+16186680690', // From a valid Twilio number
-  })
-    .then((message) => console.log(message))
-    .catch(err => console.log(err));
-}
+//   client.messages.create({
+//     body: `<#> ${otp} is your Mybuzz verification code. Enjoy shopping!`,
+//     to: '+918075180897', // Text your number
+//     from: '+16186680690', // From a valid Twilio number
+//   })
+//     .then((message) => console.log(message))
+//     .catch(err => console.log(err));
+// }
+
 
 // secure password
 
@@ -120,37 +199,6 @@ const securePassword = async (password) => {
   catch (error) {
     res.status(500).send("Something went wrong")
     console.log(error.message)
-  }
-}
-
-
-const verifyRegister = async (req, res) => {
-  try {
-    let flag = false;
-    const checkname = await userCollection.findOne({ $or: [{ name: req.body.name }, { email: req.body.email }] });
-    if (checkname !== null) flag = true;
-    if (!flag) {
-      const randromId = generateIds();
-      const userid = "CUS" + randromId;
-      const securepassword = await securePassword(req.body.password);
-      const data = {
-        userid: userid,
-        name: req.body.name,
-        username: req.body.username,
-        email: req.body.email,
-        mobile: req.body.mobile,
-        password: securepassword,
-      };
-      await userCollection.insertMany([data]);
-      res.redirect("/otp");
-    }
-    else {
-      res.render('register', { message: "Username or Email already exists" });
-    }
-  }
-  catch (err) {
-    res.status(500).send("Something went wrong")
-    console.log(err.message);
   }
 }
 
