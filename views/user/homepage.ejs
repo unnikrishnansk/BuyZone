@@ -39,7 +39,12 @@
           <div class="card-body">
             <h5 class="card-title"><%= category.categoryName %></h5>
             <p class="card-text"><%= category.categoryDescription %></p>
-            <a href="/products?name=<%= category.categoryName %>" class="btn btn-primary">Explore Category</a>
+            <% if(locals.session == true){ %>
+              <a href="/products?name=<%= category.categoryName %>" class="btn btn-primary">Explore Category</a>
+            <% }else{ %>
+              <a href="/login?msg=explore" class="btn btn-primary">Explore Category</a>
+            <% } %>
+            
           </div>
         </div>
       </div>

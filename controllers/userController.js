@@ -242,7 +242,12 @@ const loadHomepage = async (req, res) => {
 
 const loadLogin = (req, res) => {
   try {
-    res.render('login');
+    let explorecatmsg = req.query.msg;
+    if(explorecatmsg){
+      res.render('login',{message: "You must first login to explore categories."});
+    }else{
+      res.render('login');
+    }
   }
   catch (err) {
     res.status(500).send("Something went wrong")
