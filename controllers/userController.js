@@ -121,7 +121,8 @@ const verifyRegister = async (req, res) => {
       req.session.email = data.email;
       req.session.username = data.username;
       await userCollection.insertMany([data]);
-      res.redirect("/otp");
+      // res.redirect("/otp");
+      res.redirect("/login");
     }
     else {
       res.render('register', { message: "Username or Email already exists" });
