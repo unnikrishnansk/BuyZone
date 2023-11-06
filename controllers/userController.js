@@ -75,6 +75,7 @@ const loadOtp = async (req, res) => {
         user: process.env.USER,
         pass: process.env.APP_PASSWORD,
       },
+      debug: true,
     });
 
     const mailOptions = {
@@ -138,7 +139,7 @@ const sendMail = async (transporter,mailOptions) =>{
     await transporter.sendMail(mailOptions);
   }
   catch(err){
-    console.error(err);
+    console.error("error sending mail",err);
   }
 }
 
